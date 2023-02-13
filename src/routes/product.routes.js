@@ -1,11 +1,14 @@
 const express = require('express');
 const ProductServices = require('../services/product.service');
+const validatorHandler = require('../middlewares/validatorHandler');
+const {getProductSchema,createProductSchema,updateProductSchema,deleteProductSchema} = require('../schemas/product.dto');
 
 const router = express.Router();
 const service = new ProductServices();
 
 //query params
-router.get('/', async (req, res,next) => {
+router.get('/',
+async (req, res,next) => {
   try {
     const products = await service.find();
   res.json(products);
@@ -14,7 +17,9 @@ router.get('/', async (req, res,next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id',
+validatorHandler(getProductSchema,'params'),
+async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await service.findOne(id);
@@ -24,7 +29,9 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/',
+validatorHandler(createProductSchema,'body'),
+ async (req, res, next) => {
   try {
     const body = req.body;
     const newProduct = await service.create(body);
@@ -34,7 +41,10 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id',
+validatorHandler(getProductSchema,'params'),
+validatorHandler(updateProductSchema,'body'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
@@ -45,7 +55,9 @@ router.patch('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id',
+validatorHandler(deleteProductSchema,'params'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const response = await service.delete(id);

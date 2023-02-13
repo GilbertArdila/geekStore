@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const OrderServices = require('../services/order.service');
-
+const validatorHandler = require ('../middlewares/validatorHandler');
+const {createOrderSchema,updateOrderSchema,getOrderSchema,deleteOrderSchema} = require('../schemas/order.dto');
 const service = new OrderServices();
 
 //query params
@@ -14,7 +15,9 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id',
+validatorHandler(getOrderSchema,'params'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const order = await service.findOne(id);
@@ -23,7 +26,9 @@ router.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
-router.post('/', async (req, res, next) => {
+router.post('/',
+validatorHandler(createOrderSchema,'body'),
+ async (req, res, next) => {
   try {
     const body = req.body;
     const newOrder = await service.create(body);
@@ -33,7 +38,11 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id',
+validatorHandler(getOrderSchema,'params'),
+validatorHandler(updateOrderSchema,'body'),
+
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
@@ -44,7 +53,9 @@ router.patch('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id',
+validatorHandler(deleteOrderSchema,'params'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const response = await service.delete(id);

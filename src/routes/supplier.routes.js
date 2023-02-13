@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const SupplierServices = require('../services/supplier.service');
 const service = new SupplierServices();
-
+const validatorHandler = require('../middlewares/validatorHandler');
+const {createSupplierSchema,updateSupplierSchema,getSupplierSchema,deleteSupplierSchema} = require('../schemas/supplier.dto');
 //query params
 router.get('/', async (req, res, next) => {
   try {
@@ -12,7 +13,9 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
-router.get('/:id', async (req, res, next) => {
+router.get('/:id',
+validatorHandler(getSupplierSchema,'params'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const supplier = await service.findOne(id);
@@ -21,7 +24,9 @@ router.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
-router.post('/', async (req, res, next) => {
+router.post('/',
+validatorHandler(createSupplierSchema,'body'),
+ async (req, res, next) => {
   try {
     const body = req.body;
     const newSupplier = await service.create(body);
@@ -31,7 +36,10 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id',
+validatorHandler(getSupplierSchema,'params'),
+validatorHandler(updateSupplierSchema,'body'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
@@ -42,7 +50,9 @@ router.patch('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id',
+validatorHandler(deleteSupplierSchema,'params'),
+ async (req, res, next) => {
   try {
     const { id } = req.params;
     const response = await service.delete(id);
