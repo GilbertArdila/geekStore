@@ -1,51 +1,40 @@
 const express = require('express');
 const router = express.Router();
+const UserServices = require('../services/user.service');
 
+const service = new UserServices();
 //query params
-router.get('/', (req, res) => {
-  const { limit, offset } = req.query;
-  if (limit && offset) {
-    res.json({
-      limit,
-      offset,
-    });
-  }
-  res.send('sin parametros');
-});
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.json({ id });
+router.get('/',async (req,res) => {
+  const users = await service.find()
+  res.json(users);
 });
 
-router.post('/', (req, res) => {
+router.get('/:id',async (req,res) => {
+  const {id} = req.params;
+ const user =await  service.findOne(id);
+  res.json(user);
+});
+
+router.post('/',async (req, res) => {
   const body = req.body;
-  res.json({
-    message: 'created',
-    data: body,
-  });
+  const newUser =await service.create(body);
+  res.json(newUser);
 
 
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id',async (req, res) => {
   const {id} = req.params;
   const body = req.body;
-  res.json({
-    message: 'updated',
-    data: body + id,
-  });
-
-
+  const newUserData =await service.update(id,body);
+  res.json(newUserData)
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',async (req, res) => {
   const {id} = req.params;
-  res.json({
-    message: 'done',
-    data:id
-  });
-
-
+  const response =await service.delete(id);
+  res.json(response);
 });
+
 
 module.exports = router;

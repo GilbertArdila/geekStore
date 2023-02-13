@@ -1,21 +1,41 @@
 const express =require('express');
+const ProductServices = require('../services/product.service');
+
 const router = express.Router();
+const service = new ProductServices();
 
 
 //query params
-router.get('/',(req,res) => {
-  const {limit,offset} = req.query;
-  if(limit && offset){
-    res.json({
-      limit,
-    offset
-  });
-  }
-  res.send('sin parametros');
+router.get('/',async(req,res) => {
+  const products =await service.find()
+  res.json(products);
 });
-router.get('/:id',(req,res) => {
+
+router.get('/:id',async(req,res) => {
   const {id} = req.params;
-  res.json({id});
+ const product =await service.findOne(id);
+  res.json(product);
+});
+
+router.post('/',async (req, res) => {
+  const body = req.body;
+  const newProduct =await service.create(body);
+  res.json(newProduct);
+
+
+});
+
+router.patch('/:id',async (req, res) => {
+  const {id} = req.params;
+  const body = req.body;
+  const newProductData =await service.update(id,body);
+  res.json(newProductData)
+});
+
+router.delete('/:id',async (req, res) => {
+  const {id} = req.params;
+  const response =await service.delete(id);
+  res.json(response);
 });
 
 module.exports = router;
