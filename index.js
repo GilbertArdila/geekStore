@@ -1,10 +1,23 @@
 const express =require('express');
+const cors = require('cors')
 const routerApi = require('./src/routes');
 const {errorHandler,boomErrorHandler} = require('./src/middlewares/error.handler');
 const app = express();
 const port = 3000;
 //para enviar información en formato json
 app.use(express.json());
+//cors
+const whiteList = ['http://localhost:8080','https://myFrontendApp.com'];
+const options = {
+  origin: (origin,callback) => {
+     if(whiteList.includes(origin) || !origin){
+      callback(null,true)
+     }else{
+        callback(new Error('Cors error, user not allowed'))
+     }
+  }
+}
+app.use(cors(options));
 
 //llamamos la función del routes/index.js y le pasamos app
 routerApi(app);
