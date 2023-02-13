@@ -1,3 +1,5 @@
+const boom = require('@hapi/boom');
+
 class CustomerServices {
   constructor(){
     this.customers = []
@@ -14,12 +16,16 @@ class CustomerServices {
     return this.customers;
   }
   async findOne(id){
-    return this.customers.find(item => item.id === id);
+    const customer = this.customers.find(item => item.id === id);
+    if(!customer){
+      throw boom.notFound('customer not found');
+    }
+    return customer;
   }
   async update(id,changes){
     const index= this.customers.findIndex(item => item.id === id);
      if(index === -1){
-       throw new Error('404 not found')
+      throw boom.notFound('customer not found');
      }
      const product = this.customers[index];
       this.customers[index] = {...product,changes};
@@ -28,7 +34,7 @@ class CustomerServices {
    async delete(id){
      const index= this.customers.findIndex(item => item.id === id);
      if(index === -1){
-       throw new Error('404 not found')
+      throw boom.notFound('customer not found');
      }
      this.customers.splice(index,1);
      return id

@@ -1,3 +1,5 @@
+const boom = require('@hapi/boom');
+
 class CategoryServices {
   constructor(){
     this.categories = []
@@ -14,12 +16,15 @@ class CategoryServices {
     return this.categories;
   }
   async findOne(id){
-    return this.categories.find(item => item.id === id);
+    const category =  this.categories.find(item => item.id === id);
+    if(!category){
+      throw boom.notFound('category not found')
+    }
   }
   async update(id,changes){
     const index= this.categories.findIndex(item => item.id === id);
      if(index === -1){
-       throw new Error('404 not found')
+      throw boom.notFound('category not found')
      }
      const product = this.categories[index];
       this.categories[index] = {...product,changes};
@@ -28,7 +33,7 @@ class CategoryServices {
    async delete(id){
      const index= this.categories.findIndex(item => item.id === id);
      if(index === -1){
-       throw new Error('404 not found')
+      throw boom.notFound('category not found')
      }
      this.categories.splice(index,1);
      return id

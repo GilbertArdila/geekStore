@@ -1,6 +1,7 @@
 # initial setup
 
 - npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier -D
+- npm i @hapi/boom
 - .gitignore
 - .eslintrc
 - .editorconfig
@@ -11,3 +12,4 @@
 - routes/routes.js
 - routes/index.js
 - service
+- middlewares
