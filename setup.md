@@ -6,3 +6,7 @@
 - .editorconfig
 - .index.js
 - npm i express
+- src
+- src/routes
+- routes/routes.js
+- routes/index.js
