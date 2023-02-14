@@ -4,10 +4,17 @@
 - npm i @hapi/boom
 - npm i joi
 - npm i cors
+- npm i pg
+- npm dotenv  to read env
 - .gitignore
 - .eslintrc
 - .editorconfig
 - docker-compose.yml
+- src/config/config.js
+- .env
+- .env.example
+- src/libs
+- libs/postgres.js
 - index.js
 - npm i express
 - src
@@ -16,4 +23,5 @@
 - src/routes
 - routes/routes.js
 - routes/index.js
-- service
+- src/services
+- services/service
