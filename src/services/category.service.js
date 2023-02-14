@@ -39,7 +39,7 @@ class CategoryServices {
      if(!category){
       throw boom.notFound('category not found');
      }
-     await category.destroy(category);
+     await category.destroy();
      return id
 
    }

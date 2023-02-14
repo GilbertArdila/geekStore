@@ -38,7 +38,7 @@ class UserServices {
      if(!user){
       throw boom.notFound('User not found');
      }
-     await user.destroy(user);
+     await user.destroy();
      return id
 
    }

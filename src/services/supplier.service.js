@@ -38,7 +38,7 @@ class SupplierServices {
      if(!supplier){
       throw boom.notFound('supplier not found');
      }
-     await supplier.destroy(supplier);
+     await supplier.destroy();
      return id
 
    }

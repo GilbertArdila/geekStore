@@ -39,7 +39,7 @@ class ProductServices {
      if(!product){
       throw boom.notFound('product not found');
      }
-     await product.destroy(product);
+     await product.destroy();
      return id
 
    }

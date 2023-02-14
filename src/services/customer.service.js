@@ -39,7 +39,7 @@ class CustomerServices {
      if(!customer){
       throw boom.notFound('customer not found');
      }
-     await customer.destroy(customer);
+     await customer.destroy();
      return id
 
    }

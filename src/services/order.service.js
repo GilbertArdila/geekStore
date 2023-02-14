@@ -39,7 +39,7 @@ class OrderServices {
      if(!order){
       throw boom.notFound('order not found');
      }
-     await order.destroy(order);
+     await order.destroy();
      return id
 
    }

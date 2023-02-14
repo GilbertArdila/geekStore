@@ -20,10 +20,6 @@ const CustomerSchema = {
     field:'last_name',
 
    },
-   role:{
-    allowNull:false,
-    type:DataTypes.STRING
-   },
    createdAt:{
     allowNull:false,
     type:DataTypes.DATE,
