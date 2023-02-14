@@ -11,6 +11,6 @@ const sequelize = new Sequelize(URI,{dialect:'postgres',logging:true});
 
 //enviamos sequelize a setupModels en db/models/index.js
 setupModels(sequelize);
-sequelize.sync();
+
 
 module.exports = sequelize
