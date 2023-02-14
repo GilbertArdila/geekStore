@@ -1,48 +1,48 @@
 const boom = require('@hapi/boom');
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 class UserServices {
-  constructor(){
+  constructor() {
     this.users = [];
   }
-  async create(data){
+  async create(data) {
     const newProduct = {
-      data
-    }
+      data,
+    };
     this.users.push(newProduct);
     return newProduct;
   }
-  async find(){
-    const query = 'SELECT * FROM users';
-    const [data] = await sequelize.query(query);
-    return data;
-  }
-  async findOne(id){
 
-   const service =  this.users.find(item => item.id === id);
-   if(!service){
-    throw boom.notFound('service not found');
-   }
-   return service;
+  async find() {
+    const users = await models.User.findAll();
+    return users;
   }
-  async update(id,changes){
-    const index= this.users.findIndex(item => item.id === id);
-     if(index === -1){
+
+  async findOne(id) {
+    const service = this.users.find((item) => item.id === id);
+    if (!service) {
       throw boom.notFound('service not found');
     }
-     const product = this.users[index];
-      this.users[index] = {...product,changes};
-      return this.users[index]
-   }
-   async delete(id){
-     const index= this.users.findIndex(item => item.id === id);
-     if(index === -1){
+    return service;
+  }
+
+  async update(id, changes) {
+    const index = this.users.findIndex((item) => item.id === id);
+    if (index === -1) {
       throw boom.notFound('service not found');
     }
-     this.users.splice(index,1);
-     return id
+    const product = this.users[index];
+    this.users[index] = { ...product, changes };
+    return this.users[index];
+  }
 
-   }
-
+  async delete(id) {
+    const index = this.users.findIndex((item) => item.id === id);
+    if (index === -1) {
+      throw boom.notFound('service not found');
+    }
+    this.users.splice(index, 1);
+    return id;
+  }
 }
 module.exports = UserServices;

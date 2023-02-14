@@ -22,6 +22,9 @@
 - src
 - src/middlewares
 - src/schemas
+- src/db/models
+- models/model.js
+- models/index.js
 - src/routes
 - routes/routes.js
 - routes/index.js
