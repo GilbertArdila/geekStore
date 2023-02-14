@@ -1,43 +1,46 @@
 const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 class SupplierServices {
   constructor(){
-    this.suppliers = [];
   }
   async create(data){
-    const newSupplier = {
-      data
-    }
-    this.suppliers.push(newSupplier);
+    const newSupplier = await models.Supplier.create(data);
     return newSupplier;
   }
+
   async find(){
-    return this.suppliers;
+    const suppliers = await models.Supplier.findAll();
+    return suppliers;
   }
+
   async findOne(id){
-   const supplier= this.suppliers.find(item => item.id === id);
-   if(!supplier){
-    throw boom.notFound('Supplier not found');
-   }
+   const supplier =await models.Supplier.findByPk(id);
+    if(!supplier){
+      throw boom.notFound('supplier not found');
+    }
+    return supplier;
   }
+
   async update(id,changes){
-    const index= this.suppliers.findIndex(item => item.id === id);
-     if(index === -1){
-      throw boom.notFound('Supplier not found');
-    }
-     const product = this.suppliers[index];
-      this.suppliers[index] = {...product,changes};
-      return this.suppliers[index]
+    const supplier =await models.Supplier.findByPk(id);
+
+     if(!supplier){
+      throw boom.notFound('supplier not found');
+     }
+      const newSupplierData = await supplier.update(changes);
+      return newSupplierData
    }
+
    async delete(id){
-     const index= this.suppliers.findIndex(item => item.id === id);
-     if(index === -1){
-      throw boom.notFound('Supplier not found');
-    }
-     this.suppliers.splice(index,1);
+    const supplier =await models.Supplier.findByPk(id);
+
+     if(!supplier){
+      throw boom.notFound('supplier not found');
+     }
+     await supplier.destroy(supplier);
      return id
 
    }
-
 }
 module.exports = SupplierServices;

@@ -1,41 +1,45 @@
 const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 class CategoryServices {
   constructor(){
-    this.categories = []
   }
 
   async create(data){
-    const newCategory = {
-      data
-    }
-    this.categories.push(newCategory);
+    const newCategory = await models.Category.create(data);
     return newCategory;
   }
+
   async find(){
-    return this.categories;
+    const categories = await models.Category.findAll();
+    return categories;
   }
+
   async findOne(id){
-    const category =  this.categories.find(item => item.id === id);
+   const category =await models.Category.findByPk(id);
     if(!category){
-      throw boom.notFound('category not found')
+      throw boom.notFound('category not found');
     }
+    return category;
   }
+
   async update(id,changes){
-    const index= this.categories.findIndex(item => item.id === id);
-     if(index === -1){
-      throw boom.notFound('category not found')
+    const category =await models.Category.findByPk(id);
+
+     if(!category){
+      throw boom.notFound('category not found');
      }
-     const product = this.categories[index];
-      this.categories[index] = {...product,changes};
-      return this.categories[index]
+      const newCategoryData = await category.update(changes);
+      return newCategoryData
    }
+
    async delete(id){
-     const index= this.categories.findIndex(item => item.id === id);
-     if(index === -1){
-      throw boom.notFound('category not found')
+    const category =await models.Category.findByPk(id);
+
+     if(!category){
+      throw boom.notFound('category not found');
      }
-     this.categories.splice(index,1);
+     await category.destroy(category);
      return id
 
    }

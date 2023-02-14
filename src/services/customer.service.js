@@ -1,42 +1,45 @@
 const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 class CustomerServices {
   constructor(){
-    this.customers = []
   }
 
   async create(data){
-    const newCustomer = {
-      data
-    }
-    this.customers.push(newCustomer);
+    const newCustomer = await models.Customer.create(data);
     return newCustomer;
   }
+
   async find(){
-    return this.customers;
+    const customers = await models.Customer.findAll();
+    return customers;
   }
+
   async findOne(id){
-    const customer = this.customers.find(item => item.id === id);
+   const customer =await models.Customer.findByPk(id);
     if(!customer){
       throw boom.notFound('customer not found');
     }
     return customer;
   }
+
   async update(id,changes){
-    const index= this.customers.findIndex(item => item.id === id);
-     if(index === -1){
+    const customer =await models.Customer.findByPk(id);
+
+     if(!customer){
       throw boom.notFound('customer not found');
      }
-     const product = this.customers[index];
-      this.customers[index] = {...product,changes};
-      return this.customers[index]
+      const newCustomerData = await customer.update(changes);
+      return newCustomerData
    }
+
    async delete(id){
-     const index= this.customers.findIndex(item => item.id === id);
-     if(index === -1){
+    const customer =await models.Customer.findByPk(id);
+
+     if(!customer){
       throw boom.notFound('customer not found');
      }
-     this.customers.splice(index,1);
+     await customer.destroy(customer);
      return id
 
    }

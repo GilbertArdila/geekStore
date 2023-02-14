@@ -3,46 +3,44 @@ const { models } = require('../libs/sequelize');
 
 class UserServices {
   constructor() {
-    this.users = [];
   }
-  async create(data) {
-    const newProduct = {
-      data,
-    };
-    this.users.push(newProduct);
-    return newProduct;
+  async create(data){
+    const newUser = await models.User.create(data);
+    return newUser;
   }
 
-  async find() {
+  async find(){
     const users = await models.User.findAll();
     return users;
   }
 
-  async findOne(id) {
-    const service = this.users.find((item) => item.id === id);
-    if (!service) {
-      throw boom.notFound('service not found');
+  async findOne(id){
+   const user =await models.User.findByPk(id);
+    if(!user){
+      throw boom.notFound('User not found');
     }
-    return service;
+    return user;
   }
 
-  async update(id, changes) {
-    const index = this.users.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('service not found');
-    }
-    const product = this.users[index];
-    this.users[index] = { ...product, changes };
-    return this.users[index];
-  }
+  async update(id,changes){
+    const user =await models.User.findByPk(id);
 
-  async delete(id) {
-    const index = this.users.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('service not found');
-    }
-    this.users.splice(index, 1);
-    return id;
-  }
+     if(!user){
+      throw boom.notFound('User not found');
+     }
+      const newUserData = await user.update(changes);
+      return newUserData
+   }
+
+   async delete(id){
+    const user =await models.User.findByPk(id);
+
+     if(!user){
+      throw boom.notFound('User not found');
+     }
+     await user.destroy(user);
+     return id
+
+   }
 }
 module.exports = UserServices;
