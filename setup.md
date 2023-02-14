@@ -6,6 +6,8 @@
 - npm i cors
 - npm i pg
 - npm dotenv  to read env
+- npm i --save sequelize
+- npm i --save pg-hstore
 - .gitignore
 - .eslintrc
 - .editorconfig
