@@ -3,7 +3,7 @@ const cors = require('cors')
 const routerApi = require('./src/routes');
 const {errorHandler,boomErrorHandler} = require('./src/middlewares/error.handler');
 const app = express();
-const port = 3000;
+const port =process.env.PORT || 3000;
 //para enviar información en formato json
 app.use(express.json());
 //cors

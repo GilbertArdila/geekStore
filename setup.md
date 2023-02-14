@@ -7,7 +7,8 @@
 - .gitignore
 - .eslintrc
 - .editorconfig
-- .index.js
+- docker-compose.yml
+- index.js
 - npm i express
 - src
 - src/middlewares
