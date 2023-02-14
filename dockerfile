@@ -1,0 +1,35 @@
+FROM node:16 AS build
+
+RUNmkdir -p /usr/src/app
+
+WORKDIR/usr/src/app
+
+# aqui van las variables de entorno de nuestro archivo .env
+ARG NODE_ENV
+ARG DATABASE_URL
+ARG PORT
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_HOST
+ARG DB_NAME
+ARG DB_PORT
+
+ENV NODE_ENV=$NODE_ENV
+ENV DATABASE_URL=$DATABASE_URL
+ENV PORT=$PORT
+ENV DB_USER=$DB_USER
+ENV DB_PASSWORD=$DB_PASSWORD
+ENV DB_HOST=$DB_HOST
+ENV DB_NAME=$DB_NAME
+ENV DB_PORT=$DB_PORT
+
+COPYpackage*.json ./
+RUNnpm ci
+
+COPY. .
+
+RUNnpm run migrations:run
+
+EXPOSE8080
+
+CMD["npm", "start"]

@@ -8,6 +8,7 @@
 - npm dotenv  to read env
 - npm i --save sequelize
 - npm i --save pg-hstore
+- npm i sequelize-cli --save-dev
 - .gitignore
 - .eslintrc
 - .editorconfig
@@ -30,3 +31,7 @@
 - routes/index.js
 - src/services
 - services/service
+- db/migrations
+- db/seeders
+- db/config.js
+- .sequelizerc
