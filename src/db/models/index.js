@@ -14,6 +14,10 @@ const setupModels = (sequelize) => {
   Category.init(CategorySchema, Category.config(sequelize));
   Product.init(ProductSchema, Product.config(sequelize));
   Order.init(OrderSchema, Order.config(sequelize));
+
+  //ejecutando asociaciones, le enviamos los modelos a la función associate en los .model.js
+  Customer.associate(sequelize.models);
+  User.associate(sequelize.models);
 };
 
 module.exports = setupModels;

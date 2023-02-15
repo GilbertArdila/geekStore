@@ -39,8 +39,13 @@ const UserSchema = {
    }
 }
 class User extends Model{
-  static associate(){
-    //models
+  static associate(models){
+    //asociación bidireccional, esta relación se resuelve del lado del customer, el susario tiene un customer
+    this.hasOne(models.Customer,{
+      as:'customer',
+      //FK en customer.model
+      foreignKey:'userId'
+    });
   };
   //recibimos el sequelizer del models/index.js
   static config(sequelize){
