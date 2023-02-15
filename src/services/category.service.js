@@ -15,8 +15,8 @@ class CategoryServices {
     return categories;
   }
 
-  async findOne(id){
-   const category =await models.Category.findByPk(id);
+  async findOne(id){             //este alias está en category.model en la función associate
+   const category =await models.Category.findByPk(id,{include:['products']});
     if(!category){
       throw boom.notFound('category not found');
     }

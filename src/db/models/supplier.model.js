@@ -42,8 +42,12 @@ const SupplierSchema = {
    }
 }
 class Supplier extends Model{
-  static associate(){
-    //models
+  static associate(models){
+    //un proveedor tiene muchos productos
+    this.hasMany(models.Product,{
+      as:'products',
+      foreignKey:'supplierId'
+    })
   };
   //recibimos el sequelizer del models/index.js
   static config(sequelize){

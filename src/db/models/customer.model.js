@@ -56,7 +56,7 @@ const CustomerSchema = {
 }
 class Customer extends Model{
   static associate(models){
-    //un customer está relacionado a un usuario uno a uno, la relación queda desde el lado del customer, no del user
+    //un customer está relacionado a un usuario uno a uno, la relación queda desde el lado del customer bajo la FK, no del user
     this.belongsTo(models.User,{as:'user'})
   };
   //recibimos el sequelizer del models/index.js

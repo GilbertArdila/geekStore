@@ -40,7 +40,7 @@ const UserSchema = {
 }
 class User extends Model{
   static associate(models){
-    //asociación bidireccional, esta relación se resuelve del lado del customer, el susario tiene un customer
+    //asociación bidireccional, esta relación se resuelve del lado del customer con la FK, el usario tiene un customer
     this.hasOne(models.Customer,{
       as:'customer',
       //FK en customer.model

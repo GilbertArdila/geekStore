@@ -10,7 +10,9 @@ class UserServices {
   }
 
   async find(){
+    //traemos anidados los datos del customer
     const users = await models.User.findAll({
+       //este es el alias que le dimos en el user.model, en la función associate
       include:['customer']
     });
     return users;

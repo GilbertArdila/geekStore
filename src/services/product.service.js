@@ -10,8 +10,8 @@ class ProductServices {
     return newProduct;
   }
 
-  async find(){
-    const products = await models.Product.findAll();
+  async find(){                               //este es el alias que le dimos en product.model, en la funcion associate
+    const products = await models.Product.findAll({include:['category','supplier']});
     return products;
   }
 
