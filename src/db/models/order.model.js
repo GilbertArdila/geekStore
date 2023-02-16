@@ -39,6 +39,20 @@ const OrderSchema = {
     type:DataTypes.DATE,
     field:'updated_at',
     defaultValue: Sequelize.NOW
+   },
+   //dato virtual para calcular el total de la orden
+   total:{
+    type:DataTypes.VIRTUAL,
+    get(){
+      //este items es el alias de la associate belongsToMany
+      if(this.items && this.items.length >0){
+        return this.items.reduce((total,item) =>{
+          return (item.price * item.OrderProduct.amount);
+        },0)
+      }
+      return 0;
+    }
+
    }
 }
 class Order extends Model{
@@ -46,6 +60,13 @@ class Order extends Model{
 		this.belongsTo(models.Customer, {
 			as: 'customer'
 		});
+    //una orden tiene muchos productos y los llamamos items a traves de la tabla pivot orderProdut
+    this.belongsToMany(models.Product,{
+      as:'items',
+      through: models.OrderProduct,
+      foreignKey:'orderId',
+      otherKey:'productId'
+    })
 	}
   //recibimos el sequelizer del models/index.js
   static config(sequelize){
