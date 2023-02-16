@@ -5,7 +5,7 @@ const validatorHandler = require ('../middlewares/validatorHandler');
 const {createOrderSchema,updateOrderSchema,getOrderSchema,deleteOrderSchema} = require('../schemas/order.dto');
 const service = new OrderServices();
 
-//query params
+
 router.get('/', async (req, res, next) => {
   try {
     const orders = await service.find();

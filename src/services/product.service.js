@@ -11,12 +11,12 @@ class ProductServices {
   }
 
   async find(){                               //este es el alias que le dimos en product.model, en la funcion associate
-    const products = await models.Product.findAll({include:['category','supplier']});
+    const products = await models.Product.findAll({include:['category']});
     return products;
   }
 
-  async findOne(id){
-   const product =await models.Product.findByPk(id);
+  async findOne(id){  //este es el alias que le dimos en product.model, en la funcion associate
+   const product =await models.Product.findByPk(id,{include:['category','supplier']});
     if(!product){
       throw boom.notFound('product not found');
     }

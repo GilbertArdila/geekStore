@@ -14,8 +14,8 @@ class SupplierServices {
     return suppliers;
   }
 
-  async findOne(id){
-   const supplier =await models.Supplier.findByPk(id);
+  async findOne(id){     //este es el alias que le dimos en supplier.model
+   const supplier =await models.Supplier.findByPk(id,{include:['products']});
     if(!supplier){
       throw boom.notFound('supplier not found');
     }

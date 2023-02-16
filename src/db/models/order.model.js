@@ -1,6 +1,7 @@
 const {Model,Sequelize,DataTypes} = require('sequelize');
+const {CUSTOMER_TABLE} = require('./customer.model')
 
-const ORDER_TABLE = 'Orders';
+const ORDER_TABLE = 'orders';
 
 const OrderSchema = {
   //PK
@@ -15,12 +16,17 @@ const OrderSchema = {
     type:DataTypes.BOOLEAN,
    defaultValue:false
    },
+   //FK un cliente, muchas ordenes
    customerId:{
     allowNull:false,
     type:DataTypes.INTEGER,
     field:'customer_id',
-
-
+    references:{
+     model:CUSTOMER_TABLE,
+     key:'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete:'SET NULL'
    },
    createdAt:{
     allowNull:false,
@@ -36,9 +42,11 @@ const OrderSchema = {
    }
 }
 class Order extends Model{
-  static associate(){
-    //models
-  };
+  static associate(models) {
+		this.belongsTo(models.Customer, {
+			as: 'customer'
+		});
+	}
   //recibimos el sequelizer del models/index.js
   static config(sequelize){
     return {

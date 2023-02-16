@@ -58,6 +58,12 @@ class Customer extends Model{
   static associate(models){
     //un customer está relacionado a un usuario uno a uno, la relación queda desde el lado del customer bajo la FK, no del user
     this.belongsTo(models.User,{as:'user'})
+    //un cliente muchas ordenes de compra
+    this.hasMany(models.Order,{
+      as:'orders',
+      //este es el alias en order.model
+      foreignKey:'customerId'
+    })
   };
   //recibimos el sequelizer del models/index.js
   static config(sequelize){
