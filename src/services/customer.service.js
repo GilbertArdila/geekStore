@@ -19,7 +19,7 @@ class CustomerServices {
       include:['user'],
       where:{}
     }
-    const {limit,offset,name,lastName,email} = query ;
+    const {limit,offset,name,lastName} = query ;
     if(limit && offset){
       options.limit = limit;
       options.offset = offset;
@@ -30,9 +30,7 @@ class CustomerServices {
     if(lastName){
       options.where.lastName = lastName
     }
-    if(name){
-      options.where.email = email
-    }
+
 
     //traemos anidados los datos del usuario
     const customers = await models.Customer.findAll(options);

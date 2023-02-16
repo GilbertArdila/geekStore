@@ -15,7 +15,7 @@ class ProductServices {
       include:['category'],
       where:{}
     };
-    const {limit,offset,name,price,max_price,min_price} = query ;
+    const {limit,offset,name,price, price_min, price_max} = query ;
     if(limit && offset){
       options.limit = limit;
       options.offset = offset;
@@ -26,10 +26,10 @@ class ProductServices {
     if(price){
       options.where.price = price
     }
-    if(min_price && max_price){
+    if (price_min && price_max) {
       options.where.price = {
-        [Op.gte]:min_price,
-        [Op.lte]:max_price
+        [Op.gte]: price_min,
+        [Op.lte]: price_max,
       };
     }
     const products = await models.Product.findAll(options);

@@ -27,6 +27,7 @@ class SupplierServices {
     if(email){
       options.where.email = email
     }
+
     const suppliers = await models.Supplier.findAll(options);
     return suppliers;
   }

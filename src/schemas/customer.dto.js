@@ -41,8 +41,7 @@ const queryCustomerSchema = Joi.object({
   limit,
   offset,
   name,
-  lastName,
-  email
+  lastName
 })
 
 module.exports = {createCustomerSchema,updateCustomerSchema,getCustomerSchema,deleteCustomerSchema,queryCustomerSchema};
