@@ -8,6 +8,9 @@ const userId = Joi.number().integer();
 //to create a user in the same endpoint
 const email = Joi.string().email();
 const password = Joi.string().min(6).max(8);
+//para los query params
+const offset = Joi.number().integer();
+const limit = Joi.number().integer();
 
 const createCustomerSchema = Joi.object({
   name:name.required(),
@@ -33,5 +36,13 @@ const getCustomerSchema = Joi.object({
 const deleteCustomerSchema = Joi.object({
   id: id.required()
 });
+//para los querys
+const queryCustomerSchema = Joi.object({
+  limit,
+  offset,
+  name,
+  lastName,
+  email
+})
 
-module.exports = {createCustomerSchema,updateCustomerSchema,getCustomerSchema,deleteCustomerSchema};
+module.exports = {createCustomerSchema,updateCustomerSchema,getCustomerSchema,deleteCustomerSchema,queryCustomerSchema};

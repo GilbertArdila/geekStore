@@ -3,11 +3,13 @@ const router = express.Router();
 const CustomerServices = require('../services/customer.service');
 const service = new CustomerServices();
 const validatorHandler = require('../middlewares/validatorHandler');
-const {getCustomerSchema,updateCustomerSchema,createCustomerSchema,deleteCustomerSchema} = require('../schemas/customer.dto');
+const {getCustomerSchema,updateCustomerSchema,createCustomerSchema,deleteCustomerSchema,queryCustomerSchema} = require('../schemas/customer.dto');
 //query params
-router.get('/', async (req, res, next) => {
+router.get('/',
+validatorHandler(queryCustomerSchema,'query'),
+ async (req, res, next) => {
   try {
-    const customers = await service.find();
+    const customers = await service.find(req.query);
     res.json(customers);
   } catch (error) {
     next(error);

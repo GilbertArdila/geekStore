@@ -3,11 +3,13 @@ const router = express.Router();
 const SupplierServices = require('../services/supplier.service');
 const service = new SupplierServices();
 const validatorHandler = require('../middlewares/validatorHandler');
-const {createSupplierSchema,updateSupplierSchema,getSupplierSchema,deleteSupplierSchema} = require('../schemas/supplier.dto');
+const {createSupplierSchema,updateSupplierSchema,getSupplierSchema,deleteSupplierSchema,querySupplierSchema} = require('../schemas/supplier.dto');
 //query params
-router.get('/', async (req, res, next) => {
+router.get('/',
+validatorHandler(querySupplierSchema,'query'),
+ async (req, res, next) => {
   try {
-    const suppliers = await service.find();
+    const suppliers = await service.find(req.query);
     res.json(suppliers);
   } catch (error) {
     next(error);

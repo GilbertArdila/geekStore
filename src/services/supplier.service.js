@@ -9,8 +9,25 @@ class SupplierServices {
     return newSupplier;
   }
 
-  async find(){
-    const suppliers = await models.Supplier.findAll();
+  async find(query){
+    const options = {
+      where:{}
+    };
+    const {limit,offset,name,company,email} = query ;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+    if(name){
+      options.where.name = name
+    }
+    if(company){
+      options.where.company = company
+    }
+    if(email){
+      options.where.email = email
+    }
+    const suppliers = await models.Supplier.findAll(options);
     return suppliers;
   }
 

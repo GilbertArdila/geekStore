@@ -13,12 +13,29 @@ class CustomerServices {
     return newCustomer;
   }
 
-  async find(){
+  async find(query){
+     //este es el alias que le dimos en el customer.model, en la función associate
+    const options = {
+      include:['user'],
+      where:{}
+    }
+    const {limit,offset,name,lastName,email} = query ;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+    if(name){
+      options.where.name = name
+    }
+    if(lastName){
+      options.where.lastName = lastName
+    }
+    if(name){
+      options.where.email = email
+    }
+
     //traemos anidados los datos del usuario
-    const customers = await models.Customer.findAll({
-      //este es el alias que le dimos en el customer.model, en la función associate
-      include:['user']
-    });
+    const customers = await models.Customer.findAll(options);
     return customers;
   }
 
