@@ -16,7 +16,8 @@ module.exports = {
     await queryInterface.createTable(SUPPLIER_TABLE, SupplierSchema);
     await queryInterface.createTable(CATEGORY_TABLE, CategorySchema);
     await queryInterface.createTable(PRODUCT_TABLE, ProductSchema);
-    await queryInterface.createTable(ORDER_TABLE,{id:{
+    await queryInterface.createTable(ORDER_TABLE,{
+      id:{
       allowNull: false,
       autoIncrement:true,
       primaryKey:true,
@@ -27,7 +28,6 @@ module.exports = {
       type:DataTypes.BOOLEAN,
      defaultValue:false
      },
-     //FK un cliente, muchas ordenes
      customerId:{
       allowNull:false,
       type:DataTypes.INTEGER,
