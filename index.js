@@ -19,6 +19,9 @@ const options = {
 }
 app.use(cors(options));
 
+//ejecutamos las estrategias
+require('./src/utils/auth');
+
 //llamamos la función del routes/index.js y le pasamos app
 routerApi(app);
 app.use(ormErrorHandler);

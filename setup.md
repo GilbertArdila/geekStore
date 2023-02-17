@@ -9,6 +9,10 @@
 - npm i --save sequelize
 - npm i --save pg-hstore
 - npm i sequelize-cli --save-dev
+- npm i bcrypt
+- npm install passport
+- npm install passport-local
+- npm install  passport-jwt
 - .gitignore
 - .eslintrc
 - .editorconfig
@@ -21,6 +25,11 @@
 - index.js
 - npm i express
 - src
+- src/utils/auth
+- auth/idex.js
+- auth/strategies
+- strategies/local.strategy.js
+- strategies/jwt.strategy.js
 - src/middlewares
 - src/schemas
 - src/db/models
