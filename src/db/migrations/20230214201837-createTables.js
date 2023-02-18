@@ -7,11 +7,19 @@ const { ProductSchema, PRODUCT_TABLE } = require('../models/product.model');
 const {  ORDER_TABLE } = require('../models/order.model');
 const { OrderProductSchema, ORDER_PRODUCT_TABLE } = require('../models/order-product.model');
 const {Sequelize,DataTypes} = require('sequelize');
-
+const bcrypt = require('bcrypt');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface) {
     await queryInterface.createTable(USER_TABLE, UserSchema);
+    const hash = await bcrypt.hash('123456', 10);
+    await queryInterface.bulkInsert(USER_TABLE, [
+      {
+        email: 'gilbertferney@gmail.com',
+        password: hash,
+        role: 'admin'
+      }
+    ]);
     await queryInterface.createTable(CUSTOMER_TABLE, CustomerSchema);
     await queryInterface.createTable(SUPPLIER_TABLE, SupplierSchema);
     await queryInterface.createTable(CATEGORY_TABLE, CategorySchema);
