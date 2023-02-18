@@ -9,7 +9,10 @@ const {createOrderSchema,updateOrderSchema,getOrderSchema,deleteOrderSchema,addi
 const service = new OrderServices();
 
 
-router.get('/', async (req, res, next) => {
+router.get('/',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
+ async (req, res, next) => {
   try {
     const orders = await service.find();
     res.json(orders);
@@ -19,6 +22,9 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
+
 validatorHandler(getOrderSchema,'params'),
  async (req, res, next) => {
   try {
@@ -31,7 +37,7 @@ validatorHandler(getOrderSchema,'params'),
 });
 router.post('/',
 passport.authenticate('jwt',{session:false}),
-ckeckRoles('admin','superAdmin'),
+ckeckRoles('admin','superAdmin','customer'),
 validatorHandler(createOrderSchema,'body'),
  async (req, res, next) => {
   try {
@@ -46,7 +52,7 @@ validatorHandler(createOrderSchema,'body'),
 //post para agregar item a la orden
 router.post('/add-item',
 passport.authenticate('jwt',{session:false}),
-ckeckRoles('admin','superAdmin'),
+ckeckRoles('admin','superAdmin','customer'),
 validatorHandler(additemSchema,'body'),
  async (req, res, next) => {
   try {
@@ -60,7 +66,7 @@ validatorHandler(additemSchema,'body'),
 
 router.patch('/:id',
 passport.authenticate('jwt',{session:false}),
-ckeckRoles('admin','superAdmin'),
+ckeckRoles('admin','superAdmin','customer'),
 validatorHandler(getOrderSchema,'params'),
 validatorHandler(updateOrderSchema,'body'),
 
@@ -77,7 +83,7 @@ validatorHandler(updateOrderSchema,'body'),
 
 router.delete('/:id',
 passport.authenticate('jwt',{session:false}),
-ckeckRoles('admin','superAdmin'),
+ckeckRoles('admin','superAdmin','customer'),
 validatorHandler(deleteOrderSchema,'params'),
  async (req, res, next) => {
   try {
