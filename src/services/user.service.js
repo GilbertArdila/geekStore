@@ -23,7 +23,7 @@ class UserServices {
        //este es el alias que le dimos en el user.model, en la función associate
       include:['customer']
     });
-    return users;
+    return  users;
   }
 
   async findByEmail(email){
@@ -38,6 +38,7 @@ class UserServices {
     if(!user){
       throw boom.notFound('User not found');
     }
+    delete user.dataValues.password;
     return user;
   }
 

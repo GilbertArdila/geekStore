@@ -9,12 +9,17 @@ const {getUserSchema,updateUserSchema,createUserSchema,deleteUserSchema} = requi
 
 const service = new UserServices();
 //query params
-router.get('/', async (req, res) => {
+router.get('/',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
+ async (req, res) => {
   const users = await service.find();
   res.json(users);
 });
 
 router.get('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(getUserSchema,'params'),
 async (req, res, next) => {
   try {

@@ -45,6 +45,7 @@ class CustomerServices {
 
     //traemos anidados los datos del usuario
     const customers = await models.Customer.findAll(options);
+
     return customers;
   }
 
@@ -55,6 +56,8 @@ class CustomerServices {
     if (!customer) {
       throw boom.notFound('customer not found');
     }
+    delete customer.user.dataValues.password;
+
     return customer;
   }
 

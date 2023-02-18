@@ -15,6 +15,7 @@
 - npm install passport-local
 - npm install  passport-jwt
 - npm i jsonwebtoken
+- npm i nodemailer
 - .gitignore
 - .eslintrc
 - .editorconfig

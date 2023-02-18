@@ -9,6 +9,8 @@ const validatorHandler = require('../middlewares/validatorHandler');
 const {getCustomerSchema,updateCustomerSchema,createCustomerSchema,deleteCustomerSchema,queryCustomerSchema} = require('../schemas/customer.dto');
 //query params
 router.get('/',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(queryCustomerSchema,'query'),
  async (req, res, next) => {
   try {
@@ -20,6 +22,8 @@ validatorHandler(queryCustomerSchema,'query'),
 });
 
 router.get('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(getCustomerSchema,'params'),
  async (req, res, next) => {
   try {

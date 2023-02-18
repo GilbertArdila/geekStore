@@ -1,30 +1,46 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const {config} = require('../config/config');
+const AuthServices = require('../services/auth.service');
+const service = new AuthServices();
+
 router.post(
   '/login',
   //autenticamos si el usuario y login son correctos
   passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
-      //este usuario nos lo envia el utils/auth/strategies/local.Strategy en el done si todo sale bien
       const user = req.user;
-      //creamos el payload
-      const payload = {
-        sub: user.id,
-        role: user.role
-      };
-      //traemos el secret
-      const secret = config.jwtSecret;
-      //creamos el token
-     const token = jwt.sign(payload,secret);
-     //retornamos el user y el token
-      res.json({
-        user,
-        token
-      });
+      res.json(service.signToken(user));
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+router.post(
+  '/recovery',
+  async (req, res, next) => {
+    try {
+      //este usuario nos lo envia el utils/auth/strategies/local.Strategy en el done si todo sale bien
+      const {email} = req.body;
+      const response = await service.sendRecoveryPassword(email);
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  '/new-password',
+  async (req, res, next) => {
+    try {
+      //este usuario nos lo envia el utils/auth/strategies/local.Strategy en el done si todo sale bien
+      const {token,newPassword} = req.body;
+      const response = await service.changePassword(token,newPassword);
+      res.json(response);
     } catch (error) {
       next(error);
     }

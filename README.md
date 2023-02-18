@@ -13,6 +13,8 @@
   products
   orders
   auth/login
+  auth/recovery
+  auth/new-password
   profile/my-orders
 
 - HTTPRequets
@@ -26,6 +28,7 @@
   - get orders and get:id orders require to be authenticated and authorized as admin, superAdmin role
   - post,put:id,delete:id orders require to be authenticated and authorized as admin, superAdmin o customer role
   - profile/my-orders require to be authenticated
+  - user:get,user:get:id,customer:get,customer:get:id require to be authenticated and authorized as admin, superAdmin role
 
 - schemas:
 
@@ -106,3 +109,16 @@
   "orderId":3,
   "productId":1,
   "amount":2
+- auth/recovery
+  "email":"validEmail"
+- auth/login
+  "email":"validEmail",
+  "password":"itsValidPassword"
+- auth/new-password
+  "token":"validToken",
+  "newPassword":"newPassword"
+
+### considertions
+
+- el token de recuperación de contraseña se envia por params token
+- el recovery token tiene un tiempo limite de 15 minutos despues del cual se hará invalido
