@@ -1,9 +1,11 @@
 const express = require('express');
+const passport = require('passport')
 const router = express.Router();
 const CategoryServices = require('../services/category.service');
 const service = new CategoryServices();
 const validatorHandler = require('../middlewares/validatorHandler');
 const {createCategorySchema,updateCategorySchema,getCategorySchema,deleteCategorySchema} = require('../schemas/category.dto');
+const ckeckRoles = require('../middlewares/auth.handler');
 //query params
 router.get('/', async (req, res, next) => {
   try {
@@ -25,7 +27,13 @@ validatorHandler(getCategorySchema,'params'),
     next(error);
   }
 });
+//para crear una categoria debe estar logueado y tener un rol de admin, por lo tanto tener un token que se envia por los headers como un bearer token
 router.post('/',
+//verificamos el login del usuario con la estrategia jwt
+passport.authenticate('jwt',{session:false}),
+//verificamos el rol del usuario para ver la autorización
+ckeckRoles('admin','superAdmin'),
+//validamos los datos que nos envian
 validatorHandler(createCategorySchema,'body'),
  async (req, res, next) => {
   try {
@@ -38,6 +46,11 @@ validatorHandler(createCategorySchema,'body'),
 });
 
 router.patch('/:id',
+//verificamos el login del usuario con la estrategia jwt
+passport.authenticate('jwt',{session:false}),
+//verificamos el rol del usuario para ver la autorización
+ckeckRoles('admin','superAdmin'),
+
 validatorHandler(getCategorySchema,'params'),
 validatorHandler(updateCategorySchema,'body'),
  async (req, res, next) => {
@@ -52,6 +65,10 @@ validatorHandler(updateCategorySchema,'body'),
 });
 
 router.delete('/:id',
+//verificamos el login del usuario con la estrategia jwt
+passport.authenticate('jwt',{session:false}),
+//verificamos el rol del usuario para ver la autorización
+ckeckRoles('admin','superAdmin'),
 validatorHandler(deleteCategorySchema,'params'),
  async (req, res, next) => {
   try {

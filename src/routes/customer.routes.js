@@ -1,4 +1,7 @@
 const express = require('express');
+const passport = require('passport')
+const ckeckRoles = require('../middlewares/auth.handler');
+
 const router = express.Router();
 const CustomerServices = require('../services/customer.service');
 const service = new CustomerServices();
@@ -28,6 +31,8 @@ validatorHandler(getCustomerSchema,'params'),
   }
 });
 router.post('/',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(createCustomerSchema,'body'),
 async (req, res, next) => {
   try {
@@ -40,6 +45,8 @@ async (req, res, next) => {
 });
 
 router.patch('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(getCustomerSchema,'params'),
 validatorHandler(updateCustomerSchema,'body'),
  async (req, res, next) => {
@@ -54,6 +61,8 @@ validatorHandler(updateCustomerSchema,'body'),
 });
 
 router.delete('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(deleteCustomerSchema,'params'),
  async (req, res, next) => {
   try {

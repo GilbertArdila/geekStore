@@ -1,4 +1,7 @@
 const express = require('express');
+const passport = require('passport')
+const ckeckRoles = require('../middlewares/auth.handler');
+
 const router = express.Router();
 const OrderServices = require('../services/order.service');
 const validatorHandler = require ('../middlewares/validatorHandler');
@@ -27,6 +30,8 @@ validatorHandler(getOrderSchema,'params'),
   }
 });
 router.post('/',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(createOrderSchema,'body'),
  async (req, res, next) => {
   try {
@@ -40,6 +45,8 @@ validatorHandler(createOrderSchema,'body'),
 
 //post para agregar item a la orden
 router.post('/add-item',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(additemSchema,'body'),
  async (req, res, next) => {
   try {
@@ -52,6 +59,8 @@ validatorHandler(additemSchema,'body'),
 });
 
 router.patch('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(getOrderSchema,'params'),
 validatorHandler(updateOrderSchema,'body'),
 
@@ -67,6 +76,8 @@ validatorHandler(updateOrderSchema,'body'),
 });
 
 router.delete('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(deleteOrderSchema,'params'),
  async (req, res, next) => {
   try {

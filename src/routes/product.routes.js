@@ -1,4 +1,7 @@
 const express = require('express');
+const passport = require('passport')
+const ckeckRoles = require('../middlewares/auth.handler');
+
 const ProductServices = require('../services/product.service');
 const validatorHandler = require('../middlewares/validatorHandler');
 const {getProductSchema,createProductSchema,updateProductSchema,deleteProductSchema,queryProductSchema} = require('../schemas/product.dto');
@@ -31,6 +34,8 @@ async (req, res, next) => {
 });
 
 router.post('/',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(createProductSchema,'body'),
  async (req, res, next) => {
   try {
@@ -43,6 +48,8 @@ validatorHandler(createProductSchema,'body'),
 });
 
 router.patch('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(getProductSchema,'params'),
 validatorHandler(updateProductSchema,'body'),
  async (req, res, next) => {
@@ -57,6 +64,8 @@ validatorHandler(updateProductSchema,'body'),
 });
 
 router.delete('/:id',
+passport.authenticate('jwt',{session:false}),
+ckeckRoles('admin','superAdmin'),
 validatorHandler(deleteProductSchema,'params'),
  async (req, res, next) => {
   try {

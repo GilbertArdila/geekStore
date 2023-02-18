@@ -1,5 +1,6 @@
 # initial setup
 
+- npm i express
 - npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier -D
 - npm i @hapi/boom
 - npm i joi
@@ -13,6 +14,7 @@
 - npm install passport
 - npm install passport-local
 - npm install  passport-jwt
+- npm i jsonwebtoken
 - .gitignore
 - .eslintrc
 - .editorconfig
@@ -23,7 +25,6 @@
 - src/libs
 - libs/postgres.js
 - index.js
-- npm i express
 - src
 - src/utils/auth
 - auth/idex.js

@@ -12,6 +12,15 @@
   categories
   products
   orders
+  auth/login
+
+- HTTPRequets
+  - get
+  - get:id
+  - post
+  - put:id
+  - delete:id
+  - post,put and delete paths require to be authenticated and authorized as admin or superAdmin role
 
 - schemas:
 
